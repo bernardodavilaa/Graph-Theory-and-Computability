@@ -37,11 +37,15 @@ O arquivo texto contendo os dados do grafo deve seguir o formato abaixo:
 ### Exemplos de Arquivo
 
 Para testar seu programa, você pode utilizar os seguintes arquivos de exemplo:
-- [graph-test-100.txt](link_para_graph-test-100.txt)
-- [graph-test-50000.txt](link_para_graph-test-50000.txt)
+- [grafos-100.txt](link_para_grafos-50000100.txt)
+- [grafos-50000.txt](link_para_grafos-50000.txt)
 
 ## Instruções
 
 1. **Clone o Repositório:**
    ```sh
    git clone <url-do-repositorio>
+
+2. Instale as extensões de Phyton
+3. Execute `D
+4. 
