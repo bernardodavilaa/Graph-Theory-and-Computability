@@ -5,9 +5,9 @@ def forward_star(arcOrig, arcDest, pointer, vertice):
     grau_entrada = grau_saida = 0
     sucessores = []
     predecessores = []
+    
     posicao = pointer[vertice-1]
     grau_saida = pointer[vertice] - pointer[vertice-1]
-    
         
     for i in range(len(arcDest)):
         if(arcDest[i] == vertice):
