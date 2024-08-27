@@ -28,7 +28,7 @@ try:
         if vertice_origem != vertice_origem_anterior and vertice_origem_anterior is not None:
             pointer.append(contador)
             
-        vertice_origemanterior = vertice_origem
+        vertice_origem_anterior = vertice_origem
     
     # Método utilizado para busca no grafo forwardstar
     grau_saida, grau_entrada, conjunto_sucessores, conjunto_predecessores = forward_star(arcOrig, arcDest, pointer, int(vertice_escolhido)) 

@@ -13,7 +13,7 @@ def ler_arquivo(opcao):
             with open(nome_arquivo, 'r') as arquivo:
                 linhas = arquivo.readlines()
                 if not linhas:
-                    return None, None, None
+                    return []
 
                 # Processar a primeira linha para obter num_vertices e num_arestas
                 primeira_linha = linhas[0].split()
@@ -22,25 +22,26 @@ def ler_arquivo(opcao):
                     num_arestas = int(primeira_linha[1])
                 except (ValueError, IndexError):
                     print("Formato inválido na primeira linha do arquivo.")
-                    return None, None, None
+                    return []
 
-                # Processar as linhas restantes para obter pares de números
-                pares_numeros = []
+                # Processar as linhas restantes para obter as arestas
+                arestas = []
                 for linha in linhas[1:]:
                     partes = linha.split()
                     if len(partes) == 2:
                         try:
-                            num1 = int(partes[0])
-                            num2 = int(partes[1])
-                            pares_numeros.append((num1, num2))
+                            vertice_entrada = int(partes[0])
+                            vertice_saida = int(partes[1])
+                            aresta = {"vertice_entrada": vertice_entrada, "vertice_saida": vertice_saida}
+                            arestas.append(aresta)
                         except ValueError:
                             continue
 
-                return num_vertices, num_arestas, pares_numeros
+                return arestas
 
         except Exception as e:
             print("Erro ao ler o arquivo:", str(e))
-            return None, None, None
+            return []
     else:
         print("Opção inválida.")
-        return None, None, None
+        return []
