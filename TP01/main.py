@@ -9,7 +9,6 @@ def main():
     
     escolha_tamanho = input("Digite o número de vértices do grafo: ")
 
-    # Mapeia a escolha para o número de vértices
     if escolha_tamanho == "1":
         tamanho = 10
     elif escolha_tamanho == "2":
@@ -33,7 +32,7 @@ def main():
     if escolha_tipo == "1":
         g.gerar_grafo_aleatorio(tamanho)
     elif escolha_tipo == "2":
-        g.gerar_arvore_minima(tamanho)  # Chama o método para gerar árvore geradora mínima
+        g.gerar_arvore_minima(tamanho)
     else:
         print("Escolha inválida.")
         return
@@ -43,7 +42,7 @@ def main():
     else:
         print("O grafo não contém ciclos.")
     
-    articulacoes = g.encontrar_vertices_articulacao()  # Captura as articulações
+    articulacoes = g.encontrar_vertices_articulacao()
     if articulacoes:
         print(f"Articulações encontradas: {articulacoes}")
     else:
