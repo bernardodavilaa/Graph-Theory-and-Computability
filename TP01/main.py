@@ -1,3 +1,4 @@
+import time
 from grafo import Grafo
 
 def main():
@@ -37,10 +38,28 @@ def main():
             print("Escolha inválida.")
             return
 
-    print("O grafo contém ciclos." if g.verificar_ciclos() else "O grafo não contém ciclos.")
+    start_time = time.time()  # Captura o tempo de início
+    tem_ciclos = g.verificar_ciclos()  # Chama o método para verificar ciclos
+    end_time = time.time()  # Captura o tempo de término
 
+    execution_time = (end_time - start_time) * 1e9 # converte para nanosegundos
+
+    # Imprime os resultados
+    print("O grafo contém ciclos." if tem_ciclos else "O grafo não contém ciclos.")
+    print(f"Tempo de execução: {execution_time:.10f} milissegundos")
     articulacoes = g.encontrar_vertices_articulacao()
-    print(f"Articulações encontradas: {articulacoes}" if articulacoes else "Não foram encontradas articulações.")
+    
+    # Medir o tempo de execução do método encontrar_vertices_articulacao
+    start_time = time.time()  # Captura o tempo de início
+    articulacoes = g.encontrar_vertices_articulacao()  # Chama o método para encontrar articulações
+    end_time = time.time()  # Captura o tempo de término
+    
+    execution_time = (end_time - start_time) * 1e9 # converte para nanosegundos
+
+    # Calcula o tempo de execução em milissegundos
+    execution_time_articulacoes = (end_time - start_time) * 1e9  # converte para milissegundos
+    print(f"Foram encontradas articulações." if articulacoes else "Não foram encontradas articulações.")
+    print(f"Tempo de execução: {execution_time:.10f} milissegundos")
 
 if __name__ == "__main__":
     main()
