@@ -49,26 +49,25 @@ class Grafo:
             self.adicionar_aresta(v, random.randint(0, v - 1))
 
     def verificar_ciclos(self):
-        # Verifica se há ciclos no grafo usando DFS
+    # Verifica se há ciclos no grafo usando DFS
         visitados = set()
-
-        def dfs(vertice_atual, pai):
-            visitados.add(vertice_atual.id)
-            for adj in vertice_atual.adjacentes:
-                if adj not in visitados:
-                    if dfs(self.vertices[adj], vertice_atual.id):
-                        return True
-                elif pai != adj:
-                    return True
-            return False
 
         for vertice in self.vertices:
             if vertice.id not in visitados:
-                if dfs(vertice, -1):
-                    return True
-        return False
+                pilha = [(vertice, None)]  # A pilha contém pares (nó, nó pai)
 
-    ## Identificar vértices de articulação
+                while pilha:
+                    (vertice_atual, pai) = pilha.pop()
+                    if vertice_atual.id in visitados:
+                        continue
+
+                    visitados.add(vertice_atual.id)
+                    for adj in vertice_atual.adjacentes:
+                        if self.vertices[adj].id not in visitados:
+                            pilha.append((self.vertices[adj], vertice_atual.id))
+                        elif pai != self.vertices[adj].id:
+                            return True
+        return False
 
     def encontrar_vertices_articulacao(self):
         visitados = [False] * len(self.vertices)
@@ -78,61 +77,59 @@ class Grafo:
         vertices_articulacao = set()
         tempo = [0]
 
-        def dfs(vertice):
-            visitados[vertice] = True
-            descoberta[vertice] = baixo[vertice] = tempo[0]
-            tempo[0] += 1
-            filhos = 0
-
-            for vizinho in self.vertices[vertice].adjacentes:
-                if not visitados[vizinho]:
-                    pai[vizinho] = vertice
-                    filhos += 1
-                    dfs(vizinho)
-
-                    baixo[vertice] = min(baixo[vertice], baixo[vizinho])
-
-                    if pai[vertice] == -1 and filhos > 1:
-                        vertices_articulacao.add(vertice)
-                    if pai[vertice] != -1 and baixo[vizinho] >= descoberta[vertice]:
-                        vertices_articulacao.add(vertice)
-
-                elif vizinho != pai[vertice]:
-                    baixo[vertice] = min(baixo[vertice], descoberta[vizinho])
-
         for i in range(len(self.vertices)):
             if not visitados[i]:
-                dfs(i)
-
+                pilha = [(i, None)]
+                while pilha:
+                    (vertice, parent) = pilha.pop()
+                    if visitados[vertice]:
+                        continue
+                    visitados[vertice] = True
+                    descoberta[vertice] = baixo[vertice] = tempo[0]
+                    tempo[0] += 1
+                    filhos = 0
+                    for vizinho in self.vertices[vertice].adjacentes:
+                        if not visitados[vizinho]:
+                            pai[vizinho] = vertice
+                            filhos += 1
+                            pilha.append((vizinho, vertice))
+                            baixo[vertice] = min(baixo[vertice], baixo[vizinho])
+                            if pai[vertice] == -1 and filhos > 1:
+                                vertices_articulacao.add(vertice)
+                            if pai[vertice] != -1 and baixo[vizinho] >= descoberta[vertice]:
+                                vertices_articulacao.add(vertice)
+                        elif vizinho != pai[vertice]:
+                            baixo[vertice] = min(baixo[vertice], descoberta[vizinho])
         return vertices_articulacao
-
     ## Algoritmo de Tarjan
 
     def algoritmo_tarjan(self):
         # Executa o algoritmo de Tarjan para encontrar componentes fortemente conectados
         for vertice in range(len(self.vertices)):
             if self.visitado[vertice] == -1:
-                self.fortemente_conexos(vertice)
+                pilha = [vertice]
+                while pilha:
+                    v = pilha[-1]
+                    if self.visitado[v] == -1:
+                        self.visitado[v] = self.indice
+                        self.nao_processado[v] = self.indice
+                        self.indice += 1
+                        self.pilha.append(v)
+                        for vizinho in self.vertices[v].adjacentes:
+                            if self.visitado[vizinho] == -1:
+                                pilha.append(vizinho)
+                            elif vizinho in self.pilha:
+                                self.nao_processado[v] = min(self.nao_processado[v], self.visitado[vizinho])
+                    else:
+                        pilha.pop()
+                        if self.nao_processado[v] == self.visitado[v]:
+                            componente = []
+                            while True:
+                                w = self.pilha.pop()
+                                componente.append(w)
+                                if w == v:
+                                    break
+                            self.componentes_fortemente_conexos.append(componente)
+                        if pilha:
+                            self.nao_processado[pilha[-1]] = min(self.nao_processado[pilha[-1]], self.nao_processado[v])
         return self.componentes_fortemente_conexos
-
-    def fortemente_conexos(self, vertice):
-        self.visitado[vertice] = self.indice
-        self.nao_processado[vertice] = self.indice
-        self.indice += 1
-        self.pilha.append(vertice)
-
-        for vizinho in self.vertices[vertice].adjacentes:
-            if self.visitado[vizinho] == -1:
-                self.fortemente_conexos(vizinho)
-                self.nao_processado[vertice] = min(self.nao_processado[vertice], self.nao_processado[vizinho])
-            elif vizinho in self.pilha:
-                self.nao_processado[vertice] = min(self.nao_processado[vertice], self.visitado[vizinho])
-
-        if self.nao_processado[vertice] == self.visitado[vertice]:
-            componente = []
-            while True:
-                w = self.pilha.pop()
-                componente.append(w)
-                if w == vertice:
-                    break
-            self.componentes_fortemente_conexos.append(componente)
