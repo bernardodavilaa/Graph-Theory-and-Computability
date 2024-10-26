@@ -4,10 +4,10 @@ from Grafo import ler_grafo_arquivo
 def calcular_caminhos_disjuntos_para_grafos():
     ## Arquivos gerados previamente com o gerar_grafos() que foi utilizado no TP01
     arquivos = [
-        "grafo_fortemente_conexo_10.txt", "grafo_fortemente_conexo_100.txt",
-        "grafo_fortemente_conexo_1000.txt", "grafo_fortemente_conexo_10000.txt",
-        "arvore_geradora_minima_10.txt", "arvore_geradora_minima_100.txt", 
-        "arvore_geradora_minima_1000.txt", "arvore_geradora_minima_10000.txt"
+        "Implementação 03/grafo_fortemente_conexo_10.txt", "Implementação 03/grafo_fortemente_conexo_100.txt",
+        "Implementação 03/grafo_fortemente_conexo_1000.txt", "Implementação 03/grafo_fortemente_conexo_10000.txt",
+        "Implementação 03/arvore_geradora_minima_10.txt", "Implementação 03/arvore_geradora_minima_100.txt", 
+        "Implementação 03/arvore_geradora_minima_1000.txt", "Implementação 03/arvore_geradora_minima_10000.txt"
     ]
     
     origem, destino = 0, 1
@@ -27,10 +27,12 @@ def calcular_caminhos_disjuntos_para_grafos():
         print(f"Arquivo: {caminho_arquivo}, Origem: {origem}, Destino: {destino}, Caminhos disjuntos: {caminhos_disjuntos}, Tempo de execução: {tempo_execucao_ms:.6f} ms")
 
     print("\nResultados Finais:\n")
-    print("Arquivo".ljust(40) + "Origem".ljust(10) + "Destino".ljust(10) + "Caminhos Disjuntos".ljust(20) + "Tempo de Execução (ms)")
+    print("Arquivo".ljust(35) + "Origem".ljust(10) + "Destino".ljust(10) + "Caminhos Disjuntos".ljust(20) + "Tempo de Execução (ms)")
 
     for arquivo, origem, destino, caminhos, tempo in resultados:
-        print(f"{arquivo.ljust(40)}{str(origem).ljust(10)}{str(destino).ljust(10)}{str(caminhos).ljust(20)}{tempo:.6f}")
+        nome_arquivo_formatado = arquivo.replace("Implementação 03/", "").replace(".txt", "").strip()
+        print(f"{nome_arquivo_formatado.ljust(35)}{str(origem).ljust(10)}{str(destino).ljust(10)}{str(caminhos).ljust(20)}{tempo:.6f}")
+
 
 def main():
     calcular_caminhos_disjuntos_para_grafos()
